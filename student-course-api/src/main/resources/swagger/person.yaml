@@ -1,0 +1,307 @@
+swagger: "2.0"
+info:
+  description: "This is a sample tutorial created for spring boot learning purpose"
+  version: "1.0.0"
+  title: "Swagger Person"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "skmani2@gmail.com"
+host: "person.swagger.io"
+basePath: "/v1"
+tags:
+- name: "person"
+  description: "About person details"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /person:
+    post:
+      tags:
+      - "person"
+      summary: "Add a new person to the repository"
+      description: ""
+      operationId: "addPerson"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Person object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Person"
+      responses:
+        405:
+          description: "Invalid input"
+      security:
+      - personstore_auth:
+        - "write:persons"
+        - "read:persons"
+    put:
+      tags:
+      - "person"
+      summary: "Update an existing Person"
+      description: ""
+      operationId: "updatePerson"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "person object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Person"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Person not found"
+        405:
+          description: "Validation exception"
+      security:
+      - personstore_auth:
+        - "write:persons"
+        - "read:persons"
+  /person/findByStatus:
+    get:
+      tags:
+      - "person"
+      summary: "Finds Person details by status"
+      description: "Multiple status values can be provided with comma separated strings"
+      operationId: "findPersonByStatus"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "status"
+        in: "query"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "pass"
+          - "fail"
+          default: "pass"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Person"
+        400:
+          description: "Invalid status value"
+      security:
+      - personstore_auth:
+        - "write:persons"
+        - "read:persons"
+  /person/findByTags:
+    get:
+      tags:
+      - "person"
+      summary: "Finds persons by tags"
+      description: "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing."
+      operationId: "findPersonsByTags"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "tags"
+        in: "query"
+        description: "Tags to filter by"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Person"
+        400:
+          description: "Invalid tag value"
+      security:
+      - personstore_auth:
+        - "write:persons"
+        - "read:persons"
+      deprecated: true
+  /person/{personId}:
+    get:
+      tags:
+      - "person"
+      summary: "Find person by ID"
+      description: "Returns a single person"
+      operationId: "getPersonById"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "personId"
+        in: "path"
+        description: "ID of person to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Person"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Person not found"
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - "person"
+      summary: "Deletes a Person"
+      description: ""
+      operationId: "deletePerson"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "personId"
+        in: "path"
+        description: "Person id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Person not found"
+      security:
+      - personstore_auth:
+        - "write:persons"
+        - "read:persons"
+securityDefinitions:
+  personstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://person.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:persons: "modify persons in your account"
+      read:persons: "read your persons"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Tag:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "Tag"
+  Person:
+    type: "object"
+    required:
+    - "id"
+    - "status"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      contact:
+        $ref: "#/definitions/Contact"
+      address:
+        type: "array"
+        xml:
+          name: "addressArray"
+          wrapped: false
+        items:
+          $ref: "#/definitions/Address"
+      tags:
+        type: "array"
+        xml:
+          name: "tag"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Tag"
+      status:
+        type: "string"
+        xml:
+          name: "personStatus"
+        description: "person status in the store"
+        enum:
+        - "pass"
+        - "fail"
+    xml:
+      name: "Person"
+  Contact:
+    type: "object"
+    required:
+    - "contactId"
+    properties:
+      contactId:
+        type: "integer"
+      name:
+        type: "string"
+        example: "mani"
+      gender:
+        type: "string"
+        enum:
+        - "male"
+        - "female"
+        - "unknown"
+      ssn:
+        type: "string"
+        pattern: "^\\d{3}-\\d{2}-\\d{4}$"
+      dob:
+        type: "string"
+        format: "date"
+  Address:
+    type: "object"
+    required:
+    - "addressId"
+    properties:
+      addressId:
+        type: "integer"
+      addressType:
+        type: "string"
+        enum:
+        - "current"
+        - "previous"
+      streetNumber:
+        type: "integer"
+      streetAddress:
+        type: "string"
+        minLength: 25
+        maxLength: 30
+      state:
+        type: "string"
+        enum: ["TN","KA"]
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
