@@ -26,7 +26,7 @@ pipeline {
          steps {
 
             // Run Maven on a Unix agent.
-            sh "mvn mvn spring-boot:run"
+            sh "mvn spring-boot:run"
          }
 
       }
