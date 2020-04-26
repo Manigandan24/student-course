@@ -22,14 +22,14 @@ pipeline {
   
       }
       
-       stage('Run') {
+      
+    stage('Deploy') {
          steps {
 
             // Run Maven on a Unix agent.
-            sh "mvn spring-boot:run"
+            sh "mvn clean deploy"
          }
 
       }
-      
    }
 }
