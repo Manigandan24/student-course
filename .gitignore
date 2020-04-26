@@ -20,7 +20,7 @@
 *.rar
 
 #Customised files
-*.settings
+
 *.project
 /target
 *.classpath
