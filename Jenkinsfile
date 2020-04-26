@@ -19,17 +19,17 @@ pipeline {
             // bat "mvn -Dmaven.test.failure.ignore=true clean package"
          }
 
-         }
-         
-        stage('Run') {
+  
+      }
+      
+       stage('Build') {
          steps {
 
             // Run Maven on a Unix agent.
-            sh "mvn spring-boot:run"
-
+            sh "mvn mvn spring-boot:run"
          }
 
-         }
       }
+      
    }
 }
