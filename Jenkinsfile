@@ -22,7 +22,7 @@ pipeline {
   
       }
       
-       stage('Build') {
+       stage('Run') {
          steps {
 
             // Run Maven on a Unix agent.
