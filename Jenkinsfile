@@ -32,10 +32,12 @@ pipeline {
 
       }
       
-      stage('Build Image'){
-      	steps{
-      		dockerImage=docker.build("student-course")
-      	}
+   stage('Build Image') {
+         steps {
+         
+            dockerImage=docker.build("student-course")
+         }
+
       }
    }
 }
