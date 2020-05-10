@@ -27,9 +27,15 @@ pipeline {
          steps {
 
             // Run Maven on a Unix agent.
-            sh "mvn clean deploy"
+            sh "mvn deploy -DskipTests"
          }
 
+      }
+      
+      stage('Build Image'){
+      	steps{
+      		dockerImage=docker.build("student-course")
+      	}
       }
    }
 }
