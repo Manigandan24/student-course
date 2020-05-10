@@ -34,8 +34,9 @@ pipeline {
       
    stage('Build Image') {
          steps {
-         
-            dockerImage=docker.build("student-course")
+            script{
+                docker.build("student-course")
+           }
          }
 
       }
