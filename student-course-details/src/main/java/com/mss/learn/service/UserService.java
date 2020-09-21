@@ -1,9 +1,12 @@
 package com.mss.learn.service;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mss.learn.dto.UserDTO;
+import com.mss.learn.model.Friend;
 import com.mss.learn.model.User;
 import com.mss.learn.repo.UserDTORepository;
 
@@ -17,12 +20,13 @@ public void addUser(User user){
   UserDTO dto=new UserDTO();
   dto.setBalanceStatus(user.getBalanceStatus());
   dto.setEmailId(user.getEmailId());
-  dto.setUserId(1);
+  dto.setUserId(user.getUserId());
   dto.setUserName(user.getUserName());
   dto.setTotalBalance(user.getTotalBalance());
 
-  //Friend friend=new Friend();
- // dto.setFriends(Arrays.asList(friend));
+  Friend friend=new Friend();
+  friend.setFriendId(user.getUserId());
+  dto.setFriends(Arrays.asList(friend));
   repository.save(dto);
 }
 
@@ -44,7 +48,7 @@ public void deleteUser(Integer id){
 }
 
 public UserDTO selectByUser(int Id) {
-	return repository.findById(Id).get();
+	return repository.getOne(Id);
 }
 
 }

@@ -30,9 +30,6 @@ public class UserDTO implements Serializable{
 	private String balanceStatus;
 	@JsonIgnoreProperties
 	@OneToMany(targetEntity=Friend.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	//@JoinTable(name="user_friend",joinColumns = {@JoinColumn(name="userId", referencedColumnName = "userId")}, inverseJoinColumns = {@JoinColumn(name="friendId", referencedColumnName = "friendId")})
-	@JoinColumn(name="userId",referencedColumnName="userId")
-	//@Fetch(FetchMode.JOIN)
 	private List<Friend> friends=new ArrayList<Friend>();
 	public UserDTO() {
 		super();
