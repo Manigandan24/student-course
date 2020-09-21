@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>student-course-api</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<parent>
-		<groupId>com.mss.spring</groupId>
+		<groupId>com.mss.learn</groupId>
 		<artifactId>student-course</artifactId>
 		<version>1.0.0.RELEASE</version>
 		<relativePath>..</relativePath>
@@ -17,15 +17,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jaxb2.basics.version>0.6.3</jaxb2.basics.version>
 	</properties>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -38,21 +34,16 @@
 			<version>1.5.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
+		<!-- <dependency> <groupId>com.google.code.gson</groupId> <artifactId>gson</artifactId> 
+			<version>2.8.6</version> </dependency> -->
 
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
+		<!-- <dependency> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId> 
+			<version>2.8.1</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -62,7 +53,6 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugin-tools/maven-plugin-annotations -->
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
 			<artifactId>maven-plugin-annotations</artifactId>
@@ -73,6 +63,7 @@
 
 	<build>
 		<plugins>
+			<!-- plugin to generate pojo from swagger -->
 			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
@@ -93,8 +84,57 @@
 							<templateDirectory>${basedir}/src/main/resources/swagger</templateDirectory>
 							<language>spring</language>
 							<dateLibrary>java8</dateLibrary>
-							<modelPackage>com.mss.spring.swagger.model</modelPackage>
+							<modelPackage>com.mss.learn.model</modelPackage>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- plugin to generate pojo from xsd's -->
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.1</version>
+				<configuration>
+					<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+					<bindingDirectory>${project.basedir}/src/main/resources/schemas</bindingDirectory>
+					<schemaDirectory>${project.basedir}/src/main/resources/schemas</schemaDirectory>
+					<extension>true</extension>
+					<args>
+						<arg>-Xannotate</arg>
+					</args>
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>${jaxb2.basics.version}</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>${jaxb2.basics.version}</version>
+						</plugin>
+						<plugin>
+							<groupId>javax.validation</groupId>
+							<artifactId>validation-api</artifactId>
+						</plugin>
+						<dependency>
+							<groupId>com.fasterxml.jackson.core</groupId>
+							<artifactId>jackson-annotations</artifactId>
+						</dependency>
+						<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+						<dependency>
+							<groupId>com.fasterxml.jackson.core</groupId>
+							<artifactId>jackson-databind</artifactId>
+						</dependency>
+					</plugins>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

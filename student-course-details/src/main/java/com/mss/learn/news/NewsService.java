@@ -4,6 +4,7 @@ package com.mss.learn.news;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -20,7 +21,7 @@ public class NewsService {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	public News getTopStories() {
+	public News getTopStories() throws JSONException {
 		Results[] results = new Results[1];
 		  
 		News news=new News();

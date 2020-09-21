@@ -9,19 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mss.learn.news.News;
 import com.mss.learn.news.NewsService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping(path="/api")
+@Api(value="News Reading Service")
 public class NewsController {
 
 	@Autowired
 	NewsService newsService;
 	
-	@GetMapping(value = "ping")
+	@GetMapping(value = "/ping")
 	public String getStatus() throws Exception {
 		return "up and running";
 	}
 
-	@GetMapping(value = "news/topstories")
+	@GetMapping(value = "/news/topstories")
 	public News getNews() throws Exception {
 		System.out.println("------print------");
 		return newsService.getTopStories();

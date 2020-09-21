@@ -1,0 +1,32 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://www.mss.com/schemas/employee"
+	xmlns:empns="https://www.mss.com/schemas/employee"
+	xmlns:header="https://www.mss.com/schemas/header"
+	elementFormDefault="qualified" >
+	<xsd:import namespace="https://www.mss.com/schemas/header" schemaLocation="Header.xsd"></xsd:import>
+	<xsd:element name="Employee">
+		<xsd:complexType>
+			<xsd:sequence>
+						<xsd:element name="header" type="header:Header"></xsd:element>
+						<xsd:element name="empRequest" type="empns:EmpRequest"></xsd:element>
+						<xsd:element name="empResponse" type="empns:EmpResponse"></xsd:element>	
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="EmpRequest">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="EmpResponse">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:int" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="role" type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="gender" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="salary" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,9 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="https://www.mss.com/schemas/header" xmlns:empns="https://www.mss.com/schemas/header" elementFormDefault="qualified">
+	<xsd:complexType name="Header">
+		<xsd:sequence>
+			<xsd:element name="user" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			<xsd:element name="password" type="xsd:string" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

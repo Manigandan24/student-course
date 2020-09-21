@@ -1,4 +1,4 @@
-package com.mss.learn.application;
+package com.mss.learn;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

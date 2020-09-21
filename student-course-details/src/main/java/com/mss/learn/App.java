@@ -1,4 +1,4 @@
-package com.mss.learn.application;
+package com.mss.learn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
